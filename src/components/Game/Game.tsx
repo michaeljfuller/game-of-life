@@ -6,6 +6,7 @@ export interface GameProps {
     rows: number;
     columns: number;
     cellSize?: number;
+    ticksPerSecond?: number;
 }
 
 /**
@@ -15,8 +16,19 @@ export function Game({
     rows,
     columns,
     cellSize = 20,
+    ticksPerSecond=1
 }: GameProps) {
     const [gameState, dispatch] = React.useReducer(gameStateReducer, []);
+
+    React.useEffect(() => {
+        if (ticksPerSecond > 0) {
+            const intervalId = setInterval(
+                () => dispatch({type: 'tick'}),
+                1000 / ticksPerSecond
+            );
+            return () => clearInterval(intervalId);
+        }
+    }, [ticksPerSecond]);
 
     // On change size, reset state.
     React.useEffect(() => {
