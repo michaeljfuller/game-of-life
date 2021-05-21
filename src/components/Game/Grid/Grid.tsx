@@ -1,5 +1,5 @@
 import React from "react";
-import {Cell as PureCell, CellProps} from "../Cell/Cell";
+import {Cell as PureCell, CellProps} from "./Cell/Cell";
 import styles from "./Grid.module.css";
 
 const Cell = React.memo(PureCell);
