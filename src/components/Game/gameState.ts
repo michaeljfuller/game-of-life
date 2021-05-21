@@ -1,20 +1,21 @@
 import type {GridProps} from "./Grid/Grid";
+import tickGameState from "./tickGameState";
 
-type CellStates = GridProps['cellStates'];
+export type GameState = GridProps['cellStates'];
 
 export type CellReducerAction = CellReducerSetAction | CellReducerToggleAction | CellReducerTickAction;
 interface CellReducerActionBase {
     type: string;
 }
 
-export function gameStateReducer(cellStates: CellStates, action: CellReducerAction) {
+export function gameStateReducer(state: GameState, action: CellReducerAction) {
     switch (action.type) {
         case 'set': return setAction(action);
-        case 'toggle': return toggleAction(action, cellStates);
-        case 'tick': return tickAction(action, cellStates);
+        case 'toggle': return toggleAction(action, state);
+        case 'tick': return tickAction(action, state);
     }
     console.warn('Unknown gameStateReducer action', action);
-    return cellStates;
+    return state;
 }
 
 /**
@@ -25,13 +26,13 @@ function setAction(action: CellReducerSetAction) {
 }
 export interface CellReducerSetAction extends CellReducerActionBase {
     type: 'set';
-    state: CellStates;
+    state: GameState;
 }
 
 /**
  * Toggle the state on a specific cell
  */
-function toggleAction(action: CellReducerToggleAction, state: CellStates) {
+function toggleAction(action: CellReducerToggleAction, state: GameState) {
     const index = (action as CellReducerToggleAction).index;
     const newState = [...state];
     newState[index] = !newState[index];
@@ -43,12 +44,13 @@ export interface CellReducerToggleAction extends CellReducerActionBase {
 }
 
 /**
- * Tick the state of the game
+ * Tick the state of the game.
  */
-function tickAction(action: CellReducerTickAction, state: CellStates) {
-    console.log('tickAction');
-    return new Array(state.length).fill(false)
+function tickAction(action: CellReducerTickAction, state: GameState) {
+    return tickGameState(state, action.rows, action.columns);
 }
 export interface CellReducerTickAction extends CellReducerActionBase {
     type: 'tick';
+    columns: number;
+    rows: number;
 }
