@@ -1,7 +1,7 @@
 import React from "react";
 import {fireEvent, render} from "@testing-library/react";
 import {Game, GameProps} from "./Game";
-import cellStyles from "./Cell/Cell.module.css";
+import cellStyles from "./Grid/Cell/Cell.module.css";
 
 function renderGame(partial?: Partial<GameProps>) {
     const props: GameProps = Object.assign({

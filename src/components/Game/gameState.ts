@@ -4,14 +4,13 @@ type CellStates = GridProps['cellStates'];
 
 export type CellReducerAction = CellReducerSetAction | CellReducerToggleAction;
 interface CellReducerActionBase {
-    type: 'toggle'|'set';
+    type: string;
 }
 
 export function gameStateReducer(cellStates: CellStates, action: CellReducerAction) {
     switch (action.type) {
-        case 'set': return setAction(action as CellReducerSetAction);
-        case 'toggle': return toggleAction(action as CellReducerToggleAction, cellStates);
-        // TODO 'tick'
+        case 'set': return setAction(action);
+        case 'toggle': return toggleAction(action, cellStates);
     }
     console.warn('Unknown gameStateReducer action', action);
     return cellStates;
@@ -24,18 +23,20 @@ function setAction(action: CellReducerSetAction) {
     return action.state;
 }
 export interface CellReducerSetAction extends CellReducerActionBase {
+    type: 'set';
     state: CellStates;
 }
 
 /**
  * Toggle the state on a specific cell
  */
-function toggleAction(action: CellReducerToggleAction, cellStates: CellStates) {
+function toggleAction(action: CellReducerToggleAction, state: CellStates) {
     const index = (action as CellReducerToggleAction).index;
-    const newState = [...cellStates];
+    const newState = [...state];
     newState[index] = !newState[index];
     return newState;
 }
 export interface CellReducerToggleAction extends CellReducerActionBase {
+    type: 'toggle';
     index: number;
 }
