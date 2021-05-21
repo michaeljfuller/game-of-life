@@ -16,18 +16,21 @@ function renderCell(partial?: Partial<CellProps>) {
 describe("Cell", () => {
 
     it("can be created", () => {
-        const cell = renderCell();
-        expect(cell.getByRole("button")).toHaveClass(styles.cell);
+        const row = 1, column = 2;
+        const cell = renderCell({ row, column });
+        expect(cell.container.firstChild).toBeDefined();
+        expect(cell.container.firstChild).toHaveClass(styles.cell);
+        expect(cell.container.firstChild).toHaveAttribute('data-testid', `Cell[${row},${column}]`);
     });
 
     it("should have the right style if dead", () => {
         const cell = renderCell({ alive: false });
-        expect(cell.getByRole("button")).not.toHaveClass(styles.alive);
+        expect(cell.container.firstChild).not.toHaveClass(styles.alive);
     });
 
     it("should have the right style if alive", () => {
         const cell = renderCell({ alive: true });
-        expect(cell.getByRole("button")).toHaveClass(styles.alive);
+        expect(cell.container.firstChild).toHaveClass(styles.alive);
     });
 
     it("should respond to clicks", () => {

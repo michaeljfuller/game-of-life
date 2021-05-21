@@ -7,19 +7,23 @@ export interface CellProps {
     alive: boolean;
     onPress?: (row: number, column: number) => void;
 }
-export function Cell(props: CellProps) {
-    // console.log("Render Cell", props.column, props.row, props.alive);
 
-    const isAlive = props.alive;
+/**
+ * A game Cell that is either dead or alive.
+ */
+export function Cell({
+    alive, column, row, onPress
+}: CellProps) {
     const onClick = () => {
-        props.onPress && props.onPress(props.row, props.column);
+        onPress && onPress(row, column);
     }
 
     return <button
+        data-testid={`Cell[${row},${column}]`}
         className={[
             styles.cell,
-            isAlive ? styles.alive : undefined
+            alive ? styles.alive : undefined
         ].filter(v => v).join(' ')}
-        onClick={props.onPress && onClick}
-    >{props.column} x {props.row}</button>;
+        onClick={onPress && onClick}
+    >{column.toString().padStart(2, '0')}<br />{row.toString().padStart(2, '0')}</button>;
 }

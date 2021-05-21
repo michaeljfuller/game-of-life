@@ -2,11 +2,14 @@
     background-color: black;
     transition-property: background-color;
     transition-duration: 300ms;
+    color: white;
 }
 button.cell {
     border: unset;
-    color: red;
+    font-size: 7px;
+    padding: 0;
 }
 .alive {
     background-color: white;
+    color: black;
 }
