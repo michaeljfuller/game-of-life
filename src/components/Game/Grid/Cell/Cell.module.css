@@ -8,6 +8,7 @@ button.cell {
     border: unset;
     font-size: 7px;
     padding: 0;
+    user-select: none;
 }
 .alive {
     background-color: white;
