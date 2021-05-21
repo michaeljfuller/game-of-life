@@ -5,44 +5,42 @@ import styles from "./Grid.module.css";
 const Cell = React.memo(PureCell);
 
 export interface GridProps {
+    cellStates: boolean[];
     rows: number;
     columns: number;
     cellSize?: number;
     onCellPressed?: CellProps['onPress'];
 }
+
+/**
+ * Grid lays out each Cell.
+ */
 export function Grid({
+    cellStates,
     rows,
     columns,
     cellSize=50,
     onCellPressed,
 }: GridProps) {
-    const [isAlive, setIsAlive] = React.useState(false); // TODO Move to Game and make array
-
-    const onPress = React.useCallback((row: number, column: number) => {
-        console.log(`Pressed #${column + (row * columns)} (${column}x${row})`);
-        setIsAlive(!isAlive);
-        onCellPressed && onCellPressed(column, row);
-    }, [isAlive, setIsAlive, columns]);
 
     const cells = forEachCell(rows, columns, (row, column, index) => {
         return <Cell
             key={`${row}x${column}`}
-            alive={isAlive}
+            alive={cellStates[index]}
             row={row}
             column={column}
-            onPress={onPress}
+            onPress={onCellPressed}
         />;
     });
 
     return <div
+        data-testid='Grid'
         className={styles.Grid}
         style={{
             gridTemplateColumns: `repeat(${columns}, ${cellSize}px)`,
             gridTemplateRows: `repeat(${rows}, ${cellSize}px)`,
         }}
-    >
-        {cells}
-    </div>;
+    >{cells}</div>;
 }
 
 function forEachCell<

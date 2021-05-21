@@ -1,16 +1,32 @@
 import React from "react";
 import {render, fireEvent} from "@testing-library/react";
 import {Grid, GridProps} from "./Grid";
+import styles from "./Grid.module.css";
 
 function renderGrid(partial?: Partial<GridProps>) {
+    const {rows = 1, columns = 3} = partial || {};
     const props: GridProps = Object.assign({
-        rows: 1,
-        columns: 3,
+        rows,
+        columns,
+        cellStates: Array(rows*columns).fill(false),
     }, partial);
     return render(<Grid {...props} />);
 }
+function getAllCells(grid: ReturnType<typeof renderGrid>) {
+    return grid.getAllByTestId(/^Cell\[/);
+}
+function getCellAt(grid: ReturnType<typeof renderGrid>, index: number) {
+    return getAllCells(grid)[index];
+}
 
 describe("Grid", () => {
+
+    it("should he created", () => {
+        const grid = renderGrid();
+        expect(grid.container.firstChild).toBeDefined();
+        expect(grid.container.firstChild).toHaveClass(styles.Grid);
+        expect(grid.container.firstChild).toHaveAttribute('data-testid', `Grid`);
+    });
 
     it("should have the given column size", () => {
         const columns = 2, cellSize = 3;
@@ -31,22 +47,22 @@ describe("Grid", () => {
     it("should have the right number of cells", () => {
         const rows = 5, columns = 10;
         const grid = renderGrid({rows, columns});
-        expect(grid.container.firstChild?.childNodes).toHaveLength(rows*columns);
+        expect(getAllCells(grid)).toHaveLength(rows*columns);
     });
 
     it("should call onCellPressed", () => {
         const onCellPressed = jest.fn();
         const grid = renderGrid({onCellPressed});
-        fireEvent.click(grid.getAllByRole("button")[0]);
+        fireEvent.click(getCellAt(grid, 0));
         expect(onCellPressed).toHaveBeenCalledTimes(1);
     });
+
     it("should call onCellPressed with cell's position", () => {
         const rows = 3, columns = 3, onCellPressed = jest.fn();
         const grid = renderGrid({rows, columns, onCellPressed});
-        const cells = grid.getAllByRole("button");
         const cellColumn = 2, cellRow = 1, cellIndex = cellColumn + (cellRow * columns);
-        fireEvent.click(cells[cellIndex]);
-        expect(onCellPressed).toHaveBeenCalledWith(cellColumn, cellRow);
+        fireEvent.click(getCellAt(grid, cellIndex));
+        expect(onCellPressed).toHaveBeenCalledWith(cellRow, cellColumn);
     });
 
 });
