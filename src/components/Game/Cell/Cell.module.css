@@ -1,12 +1,11 @@
 .cell {
-    width: 50px;
-    height: 50px;
     background-color: black;
     transition-property: background-color;
     transition-duration: 300ms;
 }
 button.cell {
     border: unset;
+    color: red;
 }
 .alive {
     background-color: white;
