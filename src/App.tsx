@@ -26,7 +26,7 @@ function App() {
         <Game
             rows={rows}
             columns={columns}
-            ticksPerSecond={speed}
+            ticksPerSecond={playing.value ? speed : 0}
         />
     </div>;
 }

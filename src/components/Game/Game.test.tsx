@@ -13,9 +13,11 @@ function renderGame(partial?: Partial<GameProps>) {
 }
 type RenderedGame = ReturnType<typeof renderGame>;
 
-function renderGameWithGrid(grid: boolean[][]) {
+function renderGameWithGrid(grid: boolean[][], props?: Partial<GameProps>) {
     const rows = grid.length, columns = grid[0].length;
-    const game = renderGame({ rows, columns });
+    const game = renderGame(
+        Object.assign({ rows, columns }, props)
+    );
     grid.flat().forEach((value, index) => {
         if (value) fireEvent.click(getCellAt(game, index));
     });
@@ -84,6 +86,20 @@ describe('Game', () => {
         const _ = false, X = true;
         beforeEach(() => {
             jest.useFakeTimers();
+        });
+
+        it('does not update if speed set to zero', () => {
+            const game = renderGameWithGrid([
+                [_, X, _],
+                [_, X, _],
+                [_, X, _],
+            ], {ticksPerSecond: 0});
+            act(() => jest.advanceTimersToNextTimer());
+            expectGrid(game, [
+                [_, X, _],
+                [_, X, _],
+                [_, X, _],
+            ]);
         });
 
         it('can have a blinker', () => {

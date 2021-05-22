@@ -5,7 +5,6 @@ import {gameStateReducer} from "./gameState";
 export interface GameProps {
     rows: number;
     columns: number;
-    // TODO Add 'playing' here
     cellSize?: number;
     ticksPerSecond?: number;
 }
@@ -17,7 +16,7 @@ export function Game({
     rows,
     columns,
     cellSize = 20,
-    ticksPerSecond=0.5
+    ticksPerSecond = 0.5
 }: GameProps) {
     const [gameState, dispatch] = React.useReducer(gameStateReducer, []);
 
