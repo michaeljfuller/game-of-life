@@ -4,6 +4,7 @@ import useGameState from "./hooks/useGameState";
 import useSetStateOnResize from "./hooks/useSetStateOnResize";
 import useGameTick from "./hooks/useGameTick";
 import useToggleCellCallback from "./hooks/useToggleCellCallback";
+import classes from "./Game.module.css";
 
 export interface GameProps {
     rows: number;
@@ -25,8 +26,10 @@ export function Game({
     useGameTick(ticksPerSecond, rows, columns, dispatch); // Tick game state
     useSetStateOnResize(rows, columns, dispatch); // Update state if grid resized
     const onCellPressed = useToggleCellCallback(rows, columns, dispatch); // On cell pressed, toggle it
+    const onClear = React.useCallback(() => dispatch({ type: 'clear' }), [dispatch]);
+    const onRandomise = React.useCallback(() => dispatch({ type: 'randomise', aliveOdds: 0.3 }), [dispatch]);
 
-    return <div data-testid='Game'>
+    return <div data-testid='Game' className={classes.Game}>
         <Grid
             gameState={gameState}
             rows={rows}
@@ -34,5 +37,9 @@ export function Game({
             cellSize={cellSize}
             onCellPressed={onCellPressed}
         />
+        <div className={classes.actions}>
+            <button data-testid="randomise-btn" onClick={onRandomise}>Randomise</button>
+            <button data-testid="clear-btn"     onClick={onClear}>Clear</button>
+        </div>
     </div>;
 }

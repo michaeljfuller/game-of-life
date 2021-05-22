@@ -1,6 +1,6 @@
 import tickGameState from "./tickGameState";
 
-export type GameStateAction = GameStateSetAction | GameStateToggleAction | GameStateTickAction;
+export type GameStateAction = GameStateSetAction | GameStateToggleAction | GameStateTickAction | GameStateClearAction | GameStateRandomiseAction;
 interface GameStateActionBase {
     type: string;
 }
@@ -40,4 +40,25 @@ export interface GameStateTickAction extends GameStateActionBase {
     type: 'tick';
     columns: number;
     rows: number;
+}
+
+/**
+ * Clear the Grid
+ */
+export function clearAction(action: GameStateClearAction, state: GameState) {
+    return Array(state.length).fill(false);
+}
+export interface GameStateClearAction extends GameStateActionBase {
+    type: 'clear';
+}
+
+/**
+ * Randomise the Grid
+ */
+export function randomiseAction(action: GameStateRandomiseAction, state: GameState) {
+    return state.map(() => Math.random() < action.aliveOdds);
+}
+export interface GameStateRandomiseAction extends GameStateActionBase {
+    type: 'randomise';
+    aliveOdds: number;
 }

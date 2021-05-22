@@ -3,6 +3,8 @@ import {fireEvent, render, act} from "@testing-library/react";
 import {Game, GameProps} from "./Game";
 import cellStyles from "./Grid/Cell/Cell.module.css";
 
+const _ = false, X = true;
+
 function renderGame(partial?: Partial<GameProps>) {
     const props: GameProps = Object.assign({
         rows: 3,
@@ -81,9 +83,50 @@ describe('Game', () => {
         expect(getCellAt(game, cellIndex)).toHaveClass(cellStyles.alive);
     });
 
+    describe('buttons', () => {
+        let randomSpy: jest.SpyInstance;
+        beforeEach(() => randomSpy = jest.spyOn(global.Math, 'random'));
+        afterEach(() => randomSpy.mockRestore());
+
+        it('can clear the grid', () => {
+            const game = renderGameWithGrid([
+                [X, X, X],
+                [X, X, X],
+                [X, X, X],
+            ]);
+            fireEvent.click(game.getByTestId('clear-btn'));
+            expectGrid(game, [
+                [_, _, _],
+                [_, _, _],
+                [_, _, _],
+            ]);
+        });
+
+        it('can randomize grid', () => {
+            const randomValues = [
+                1, 1, 1,
+                0, 1, 0,
+                0, 0, 0
+            ].map(value => value ^ 1); // Flip values because 0 means alive and 1 means dead
+            randomSpy.mockImplementation(() => randomValues.shift() || 0);
+
+            const game = renderGameWithGrid([
+                [_, _, _],
+                [_, _, _],
+                [_, _, _],
+            ]);
+            fireEvent.click(game.getByTestId('randomise-btn'));
+            expectGrid(game, [
+                [X, X, X],
+                [_, X, _],
+                [_, _, _],
+            ]);
+        });
+
+    });
+
     // https://en.wikipedia.org/wiki/Oscillator_(cellular_automaton)
-    describe('game tick', () => {
-        const _ = false, X = true;
+    describe('tick', () => {
         beforeEach(() => {
             jest.useFakeTimers();
         });

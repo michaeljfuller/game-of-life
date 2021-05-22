@@ -1,0 +1,12 @@
+.Game {
+
+}
+.actions {
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+    margin-top: 5px;
+}
+.actions * {
+    margin: 0 3px;
+}
