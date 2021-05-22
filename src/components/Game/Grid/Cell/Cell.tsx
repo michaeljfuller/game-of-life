@@ -4,7 +4,7 @@ import styles from "./Cell.module.css";
 export interface CellProps {
     row: number;
     column: number;
-    alive: boolean;
+    alive: CellAlive;
     onPress?: (row: number, column: number) => void;
 }
 

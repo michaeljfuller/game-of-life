@@ -13,7 +13,7 @@ function renderGame(partial?: Partial<GameProps>) {
 }
 type RenderedGame = ReturnType<typeof renderGame>;
 
-function renderGameWithGrid(grid: boolean[][], props?: Partial<GameProps>) {
+function renderGameWithGrid(grid: GameState2D, props?: Partial<GameProps>) {
     const rows = grid.length, columns = grid[0].length;
     const game = renderGame(
         Object.assign({ rows, columns }, props)
@@ -33,7 +33,7 @@ function getAllCells(game: RenderedGame) {
 function getCellAt(game: RenderedGame, index: number) {
     return getAllCells(game)[index];
 }
-function expectGrid(game: RenderedGame, grid: boolean[][], messagePrefix?: string) {
+function expectGrid(game: RenderedGame, grid: GameState2D, messagePrefix?: string) {
     let index = 0;
     grid.forEach((columnArray, row) => {
         columnArray.forEach((expectAlive, column) => {

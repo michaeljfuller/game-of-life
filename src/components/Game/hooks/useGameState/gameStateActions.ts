@@ -1,7 +1,4 @@
-import type {GridProps} from "../../Grid/Grid";
 import tickGameState from "./tickGameState";
-
-export type GameStateActions = GridProps['cellStates'];
 
 export type GameStateAction = GameStateSetAction | GameStateToggleAction | GameStateTickAction;
 interface GameStateActionBase {
@@ -16,13 +13,13 @@ export function setAction(action: GameStateSetAction) {
 }
 export interface GameStateSetAction extends GameStateActionBase {
     type: 'set';
-    state: GameStateActions;
+    state: GameState;
 }
 
 /**
  * Toggle the state on a specific cell
  */
-export function toggleAction(action: GameStateToggleAction, state: GameStateActions) {
+export function toggleAction(action: GameStateToggleAction, state: GameState) {
     const index = (action as GameStateToggleAction).index;
     const newState = [...state];
     newState[index] = !newState[index];
@@ -36,7 +33,7 @@ export interface GameStateToggleAction extends GameStateActionBase {
 /**
  * Tick the state of the game.
  */
-export function tickAction(action: GameStateTickAction, state: GameStateActions) {
+export function tickAction(action: GameStateTickAction, state: GameState) {
     return tickGameState(state, action.rows, action.columns);
 }
 export interface GameStateTickAction extends GameStateActionBase {

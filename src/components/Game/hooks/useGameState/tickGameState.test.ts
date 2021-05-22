@@ -5,7 +5,7 @@ describe('tickGame', () => {
     describe('countNeighbouringCells', () => {
 
         /** Generate test from the passed grid layout and expected counts. */
-        function testGridCounts(grid: boolean[][], expectedCounts: (number|false)[][]) {
+        function testGridCounts(grid: GameState2D, expectedCounts: (number|false)[][]) {
             const rows = grid.length;
             const columns = grid[0].length;
             const state = grid.flat();
@@ -100,12 +100,12 @@ describe('tickGame', () => {
     describe('tickGame', () => {
 
         function testTickGame(
-            initialGrid: boolean[][],
-            expectedGrid: boolean[][],
+            initialGrid: GameState2D,
+            expectedGrid: GameState2D,
         ) {
             const rows = initialGrid.length;
             const columns = initialGrid[0].length;
-            const cellString = (index: number, alive: boolean) => {
+            const cellString = (index: number, alive: CellAlive) => {
                 const pos = indexToPosition(index, columns);
                 return `[row:${pos.row}, col:${pos.column}] is ${alive ? 'alive' : 'dead'}`
             };
@@ -113,7 +113,7 @@ describe('tickGame', () => {
             it('has the right values for \n' + drawTextGrid(initialGrid), () => {
                 const expected = expectedGrid.flat();
                 const actual = tickGame(initialGrid.flat(), rows, columns);
-                actual.forEach((alive, index) => {
+                actual.forEach((alive: CellAlive, index: number) => {
                     expect(
                         cellString(index, alive)
                     ).toEqual(
@@ -220,7 +220,7 @@ describe('tickGame', () => {
 
 });
 
-function drawTextGrid(grid: boolean[][]): string {
+function drawTextGrid(grid: GameState2D): string {
     const rows = grid.length;
     let result = '';
     result += '┌ ' + grid[0].map((_, index) => index).join(' ') + ' ┐\n';
@@ -232,7 +232,7 @@ function drawTextGrid(grid: boolean[][]): string {
 }
 
 function forEachCellIn(
-    grid: boolean[][],
+    grid: GameState2D,
     callback: (row: number, column: number, index: number) => void
 ) {
     const rows = grid.length;

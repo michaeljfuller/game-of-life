@@ -1,6 +1,5 @@
 import React from "react";
 import {
-    GameStateActions,
     GameStateAction,
     setAction,
     toggleAction,
@@ -11,7 +10,7 @@ export default function useGameState() {
     return React.useReducer(gameStateReducer, []);
 }
 
-function gameStateReducer(state: GameStateActions, action: GameStateAction) {
+function gameStateReducer(state: GameState, action: GameStateAction) {
     switch (action.type) {
         case 'set': return setAction(action);
         case 'toggle': return toggleAction(action, state);

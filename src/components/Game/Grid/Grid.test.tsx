@@ -8,14 +8,15 @@ function renderGrid(partial?: Partial<GridProps>) {
     const props: GridProps = Object.assign({
         rows,
         columns,
-        cellStates: Array(rows*columns).fill(false),
+        gameState: Array(rows * columns).fill(false),
     }, partial);
     return render(<Grid {...props} />);
 }
-function getAllCells(grid: ReturnType<typeof renderGrid>) {
+type RenderedGrid = ReturnType<typeof renderGrid>;
+function getAllCells(grid: RenderedGrid) {
     return grid.getAllByTestId(/^Cell\[/);
 }
-function getCellAt(grid: ReturnType<typeof renderGrid>, index: number) {
+function getCellAt(grid: RenderedGrid, index: number) {
     return getAllCells(grid)[index];
 }
 

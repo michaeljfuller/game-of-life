@@ -5,7 +5,7 @@ import styles from "./Grid.module.css";
 const Cell = React.memo(PureCell);
 
 export interface GridProps {
-    cellStates: boolean[];
+    gameState: GameState;
     rows: number;
     columns: number;
     cellSize?: number;
@@ -16,7 +16,7 @@ export interface GridProps {
  * Grid lays out each Cell.
  */
 export function Grid({
-    cellStates,
+    gameState,
     rows,
     columns,
     cellSize=50,
@@ -26,7 +26,7 @@ export function Grid({
     const cells = forEachCell(rows, columns, (row, column, index) => {
         return <Cell
             key={`${row}x${column}`}
-            alive={cellStates[index]}
+            alive={gameState[index]}
             row={row}
             column={column}
             onPress={onCellPressed}

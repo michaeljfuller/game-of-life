@@ -28,7 +28,7 @@ export function Game({
 
     return <div data-testid='Game'>
         <Grid
-            cellStates={gameState}
+            gameState={gameState}
             rows={rows}
             columns={columns}
             cellSize={cellSize}
