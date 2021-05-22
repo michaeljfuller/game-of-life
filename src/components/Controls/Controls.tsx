@@ -2,7 +2,7 @@ import React, {FormEvent} from "react";
 import styles from "./Controls.module.css";
 
 const ROWS_MIN = 10, COLUMNS_MIN = 10;
-const ROWS_MAX = 100, COLUMNS_MAX = 100;
+const ROWS_MAX = 80, COLUMNS_MAX = 80;
 const SPEED_MIN = 0.1, SPEED_MAX = 10, SPEED_STEP = 0.1;
 
 export interface ControlsProps {
@@ -74,6 +74,6 @@ function useNumberInput(
     return React.useCallback((event: FormEvent) => {
         const input = event.target as HTMLInputElement;
         const number = input.valueAsNumber;
-        callback(number);
+        callback(number || 0);
     }, [callback]);
 }
