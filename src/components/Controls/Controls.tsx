@@ -1,8 +1,8 @@
 import React, {FormEvent} from "react";
 import styles from "./Controls.module.css";
 
-const ROWS_MIN = 12, COLUMNS_MIN = 12;
-const ROWS_MAX = 50, COLUMNS_MAX = 50;
+const ROWS_MIN = 10, COLUMNS_MIN = 10;
+const ROWS_MAX = 100, COLUMNS_MAX = 100;
 const SPEED_MIN = 0.1, SPEED_MAX = 10, SPEED_STEP = 0.1;
 
 export interface ControlsProps {
@@ -24,9 +24,8 @@ export function Controls(props: ControlsProps) {
 
     return <div className={styles.Controls}>
         <div>
-
             <button data-testid="pause-btn" onClick={props.onPause} disabled={!props.playing}>Pause</button>
-            <button data-testid="play-btn"  onClick={props.onPlay} disabled={props.playing}>Play</button>
+            <button data-testid="play-btn"  onClick={props.onPlay}  disabled={ props.playing}>Play</button>
 
             <label htmlFor="columns-input">Columns:</label>
             <input

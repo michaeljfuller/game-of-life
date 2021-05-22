@@ -25,5 +25,5 @@ export function Cell({
             alive ? styles.alive : undefined
         ].filter(v => v).join(' ')}
         onClick={onPress && onClick}
-    >{column.toString().padStart(2, '0')}<br />{row.toString().padStart(2, '0')}</button>;
+    >{/*column.toString().padStart(2, '0')}<br />{row.toString().padStart(2, '0')*/}</button>;
 }

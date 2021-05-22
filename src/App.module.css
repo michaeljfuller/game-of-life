@@ -1,0 +1,14 @@
+.App {
+    display: flex;
+    flex-direction: column;
+}
+.App > h1 {
+    text-align: center;
+}
+
+.controls {
+    margin: 0 auto 10px;
+}
+.game {
+    margin: 0 auto;
+}
