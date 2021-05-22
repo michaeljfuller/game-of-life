@@ -2,8 +2,17 @@
     display: flex;
     flex-direction: column;
 }
-.App > h1 {
+.title {
     text-align: center;
+    text-decoration: none;
+    color: white;
+    margin: 0 auto;
+}
+.title:hover {
+    color: lightblue;
+}
+.title * {
+    margin: 0;
 }
 
 .controls {

@@ -1,7 +1,7 @@
 import React from 'react';
 import {Game} from "./components/Game/Game";
 import {Controls} from "./components/Controls/Controls";
-import styles from "./App.module.css";
+import classes from "./App.module.css";
 
 // TODO Add Error Boundary
 
@@ -11,11 +11,13 @@ function App() {
     const [columns, setColumns] = React.useState(25);
     const [speed, setSpeed] = React.useState(3);
 
-    return <div className={styles.App}>
+    return <div className={classes.App}>
 
-        <h1>Conway's Game of Life</h1>
+        <a className={classes.title} href="https://en.wikipedia.org/wiki/Conway%27s_Game_of_Life">
+            <h1>Conway's Game of Life</h1>
+        </a>
 
-        <div className={styles.controls}>
+        <div className={classes.controls}>
             <Controls
                 playing={playing.value}
                 rows={rows}
@@ -30,7 +32,7 @@ function App() {
             />
         </div>
 
-        <div className={styles.game}>
+        <div className={classes.game}>
             <Game
                 rows={rows}
                 columns={columns}
