@@ -15,5 +15,5 @@ export default function useGameTick(
             );
             return () => clearInterval(intervalId);
         }
-    }, [ticksPerSecond, columns, rows]);
+    }, [ticksPerSecond, columns, rows, dispatcher]);
 }
