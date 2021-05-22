@@ -122,6 +122,66 @@ describe('Game', () => {
             ], 'At phase 2,');
         });
 
+        it('ends at the top', () => {
+            const game = renderGameWithGrid([
+                [X, X, X],
+                [_, _, _],
+                [_, _, _],
+            ]);
+            act(() => jest.advanceTimersToNextTimer());
+            expectGrid(game, [
+                [_, X, _],
+                [_, X, _],
+                [_, _, _],
+            ]);
+            act(() => jest.advanceTimersToNextTimer());
+        });
+
+        it('ends on the right', () => {
+            const game = renderGameWithGrid([
+                [_, _, X],
+                [_, _, X],
+                [_, _, X],
+            ]);
+            act(() => jest.advanceTimersToNextTimer());
+            expectGrid(game, [
+                [_, _, _],
+                [_, X, X],
+                [_, _, _],
+            ]);
+            act(() => jest.advanceTimersToNextTimer());
+        });
+
+        it('ends at the bottom', () => {
+            const game = renderGameWithGrid([
+                [_, _, _],
+                [_, _, _],
+                [X, X, X],
+            ]);
+            act(() => jest.advanceTimersToNextTimer());
+            expectGrid(game, [
+                [_, _, _],
+                [_, X, _],
+                [_, X, _],
+            ]);
+            act(() => jest.advanceTimersToNextTimer());
+        });
+
+        it('ends on the left', () => {
+            const game = renderGameWithGrid([
+                [X, _, _],
+                [X, _, _],
+                [X, _, _],
+            ]);
+            act(() => jest.advanceTimersToNextTimer());
+            expectGrid(game, [
+                [_, _, _],
+                [X, X, _],
+                [_, _, _],
+            ]);
+            act(() => jest.advanceTimersToNextTimer());
+        });
+
         it('can have a cross', () => {
             const game = renderGameWithGrid([
                 [_,_,_,_,_,_,_,_,_,_],
