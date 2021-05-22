@@ -19,7 +19,7 @@ function renderGameWithGrid(grid: GameState2D, props?: Partial<GameProps>) {
         Object.assign({ rows, columns }, props)
     );
     grid.flat().forEach((value, index) => {
-        if (value) fireEvent.click(getCellAt(game, index));
+        if (value) fireEvent.mouseDown(getCellAt(game, index));
     });
     return game;
 }
@@ -77,7 +77,7 @@ describe('Game', () => {
         const game = renderGame();
         const cellIndex = 3;
         expect(getCellAt(game, cellIndex)).not.toHaveClass(cellStyles.alive);
-        fireEvent.click(getCellAt(game, cellIndex));
+        fireEvent.mouseDown(getCellAt(game, cellIndex));
         expect(getCellAt(game, cellIndex)).toHaveClass(cellStyles.alive);
     });
 

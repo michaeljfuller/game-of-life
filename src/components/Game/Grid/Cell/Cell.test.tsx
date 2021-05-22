@@ -36,14 +36,14 @@ describe("Cell", () => {
     it("should respond to clicks", () => {
         const onPress = jest.fn();
         const cell = renderCell({ onPress });
-        fireEvent.click(cell.getByRole("button"));
+        fireEvent.mouseDown(cell.getByRole("button"));
         expect(onPress).toHaveBeenCalledTimes(1);
     });
 
     it("should pass back row + column when clicked", () => {
         const onPress = jest.fn(), row = 1, column = 2;
         const cell = renderCell({ onPress, row, column });
-        fireEvent.click(cell.getByRole("button"));
+        fireEvent.mouseDown(cell.getByRole("button"));
         expect(onPress).toHaveBeenCalledWith(row, column);
     });
 

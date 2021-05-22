@@ -54,7 +54,7 @@ describe("Grid", () => {
     it("should call onCellPressed", () => {
         const onCellPressed = jest.fn();
         const grid = renderGrid({onCellPressed});
-        fireEvent.click(getCellAt(grid, 0));
+        fireEvent.mouseDown(getCellAt(grid, 0));
         expect(onCellPressed).toHaveBeenCalledTimes(1);
     });
 
@@ -62,7 +62,7 @@ describe("Grid", () => {
         const rows = 3, columns = 3, onCellPressed = jest.fn();
         const grid = renderGrid({rows, columns, onCellPressed});
         const cellColumn = 2, cellRow = 1, cellIndex = cellColumn + (cellRow * columns);
-        fireEvent.click(getCellAt(grid, cellIndex));
+        fireEvent.mouseDown(getCellAt(grid, cellIndex));
         expect(onCellPressed).toHaveBeenCalledWith(cellRow, cellColumn);
     });
 

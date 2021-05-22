@@ -14,7 +14,7 @@ export interface CellProps {
 export function Cell({
     alive, column, row, onPress
 }: CellProps) {
-    const onClick = () => {
+    const onPressHandler = () => {
         onPress && onPress(row, column);
     }
 
@@ -24,6 +24,6 @@ export function Cell({
             styles.cell,
             alive ? styles.alive : undefined
         ].filter(v => v).join(' ')}
-        onClick={onPress && onClick}
+        onMouseDown={onPress && onPressHandler}
     >{/*column.toString().padStart(2, '0')}<br />{row.toString().padStart(2, '0')*/}</button>;
 }
