@@ -1,4 +1,4 @@
-import type {GameState} from "./gameState";
+import type {GameStateActions} from "./gameStateActions";
 
 /**
  * Returns a new version of the passed GameState, with cells flipped to conform to the rules.
@@ -10,7 +10,7 @@ import type {GameState} from "./gameState";
  *
  * @link https://en.wikipedia.org/wiki/Conway%27s_Game_of_Life#Rules
  */
-export function tickGame(state: GameState, rows: number, columns: number): GameState {
+export function tickGame(state: GameStateActions, rows: number, columns: number): GameStateActions {
     return state.map((_, index) => {
         const neighbours = countNeighbouringCells(index, state, rows, columns);
         const alive = state[index];
@@ -23,7 +23,7 @@ export default tickGame;
 
 export function countNeighbouringCells(
     cellIndex: number,
-    state: GameState,
+    state: GameStateActions,
     rows: number,
     columns: number
 ) {
