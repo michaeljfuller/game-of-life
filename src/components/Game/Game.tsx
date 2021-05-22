@@ -1,11 +1,11 @@
 import React from "react";
 import {Grid} from "./Grid/Grid";
-import {Controls} from "./Controls/Controls";
 import {gameStateReducer} from "./gameState";
 
 export interface GameProps {
     rows: number;
     columns: number;
+    // TODO Add 'playing' here
     cellSize?: number;
     ticksPerSecond?: number;
 }
@@ -50,7 +50,6 @@ export function Game({
     return <div
         data-testid='Game'
     >
-        <Controls />
         <Grid
             cellStates={gameState}
             rows={rows}
