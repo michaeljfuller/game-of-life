@@ -1,5 +1,5 @@
 import React from "react";
-import {fireEvent, render} from "@testing-library/react";
+import {fireEvent, render, act} from "@testing-library/react";
 import {Game, GameProps} from "./Game";
 import cellStyles from "./Grid/Cell/Cell.module.css";
 
@@ -7,18 +7,47 @@ function renderGame(partial?: Partial<GameProps>) {
     const props: GameProps = Object.assign({
         rows: 3,
         columns: 5,
+        ticksPerSecond: 1,
     }, partial);
     return render(<Game {...props} />)
 }
+type RenderedGame = ReturnType<typeof renderGame>;
 
-function getGrid(game: ReturnType<typeof renderGame>) {
+function renderGameWithGrid(grid: boolean[][]) {
+    const rows = grid.length, columns = grid[0].length;
+    const game = renderGame({ rows, columns });
+    grid.flat().forEach((value, index) => {
+        if (value) fireEvent.click(getCellAt(game, index));
+    });
+    return game;
+}
+
+function getGrid(game: RenderedGame) {
     return game.getByTestId('Grid');
 }
-function getAllCells(game: ReturnType<typeof renderGame>) {
+function getAllCells(game: RenderedGame) {
     return game.getAllByTestId(/^Cell\[/);
 }
-function getCellAt(game: ReturnType<typeof renderGame>, index: number) {
+function getCellAt(game: RenderedGame, index: number) {
     return getAllCells(game)[index];
+}
+function expectGrid(game: RenderedGame, grid: boolean[][], messagePrefix?: string) {
+    let index = 0;
+    grid.forEach((columnArray, row) => {
+        columnArray.forEach((expectAlive, column) => {
+            const cell = getCellAt(game, index++);
+            const isAlive = cell.classList.contains(cellStyles.alive);
+            const message = [
+                messagePrefix,
+                `Cell[row:${row}, col:${column}]' is`
+            ].filter(v => v).join(' ');
+            expect(
+                `${message} ${isAlive ? 'alive' : 'dead'}`
+            ).toBe(
+                `${message} ${expectAlive ? 'alive' : 'dead'}`
+            );
+        });
+    });
 }
 
 describe('Game', () => {
@@ -48,6 +77,89 @@ describe('Game', () => {
         expect(getCellAt(game, cellIndex)).not.toHaveClass(cellStyles.alive);
         fireEvent.click(getCellAt(game, cellIndex));
         expect(getCellAt(game, cellIndex)).toHaveClass(cellStyles.alive);
+    });
+
+    // https://en.wikipedia.org/wiki/Oscillator_(cellular_automaton)
+    describe('game tick', () => {
+        const _ = false, X = true;
+        beforeEach(() => {
+            jest.useFakeTimers();
+        });
+
+        it('can have a blinker', () => {
+            const game = renderGameWithGrid([
+                [_, X, _],
+                [_, X, _],
+                [_, X, _],
+            ]);
+            act(() => jest.advanceTimersToNextTimer());
+            expectGrid(game, [
+                [_, _, _],
+                [X, X, X],
+                [_, _, _],
+            ], 'At phase 1,');
+            act(() => jest.advanceTimersToNextTimer());
+            expectGrid(game, [
+                [_, X, _],
+                [_, X, _],
+                [_, X, _],
+            ], 'At phase 2,');
+        });
+
+        it('can have a cross', () => {
+            const game = renderGameWithGrid([
+                [_,_,_,_,_,_,_,_,_,_],
+                [_,_,_,X,X,X,X,_,_,_],
+                [_,_,_,X,_,_,X,_,_,_],
+                [_,X,X,X,_,_,X,X,X,_],
+                [_,X,_,_,_,_,_,_,X,_],
+                [_,X,_,_,_,_,_,_,X,_],
+                [_,X,X,X,_,_,X,X,X,_],
+                [_,_,_,X,_,_,X,_,_,_],
+                [_,_,_,X,X,X,X,_,_,_],
+                [_,_,_,_,_,_,_,_,_,_],
+            ]);
+            act(() => jest.advanceTimersToNextTimer());
+            expectGrid(game, [
+                [_,_,_,_,X,X,_,_,_,_],
+                [_,_,_,X,X,X,X,_,_,_],
+                [_,_,_,_,_,_,_,_,_,_],
+                [_,X,_,X,_,_,X,_,X,_],
+                [X,X,_,_,_,_,_,_,X,X],
+                [X,X,_,_,_,_,_,_,X,X],
+                [_,X,_,X,_,_,X,_,X,_],
+                [_,_,_,_,_,_,_,_,_,_],
+                [_,_,_,X,X,X,X,_,_,_],
+                [_,_,_,_,X,X,_,_,_,_],
+            ], 'At phase 1,');
+            act(() => jest.advanceTimersToNextTimer());
+            expectGrid(game, [
+                [_,_,_,X,_,_,X,_,_,_],
+                [_,_,_,X,_,_,X,_,_,_],
+                [_,_,X,X,_,_,X,X,_,_],
+                [X,X,X,_,_,_,_,X,X,X],
+                [_,_,_,_,_,_,_,_,_,_],
+                [_,_,_,_,_,_,_,_,_,_],
+                [X,X,X,_,_,_,_,X,X,X],
+                [_,_,X,X,_,_,X,X,_,_],
+                [_,_,_,X,_,_,X,_,_,_],
+                [_,_,_,X,_,_,X,_,_,_],
+            ], 'At phase 2,');
+            act(() => jest.advanceTimersToNextTimer());
+            expectGrid(game, [
+                [_,_,_,_,_,_,_,_,_,_],
+                [_,_,_,X,X,X,X,_,_,_],
+                [_,_,_,X,_,_,X,_,_,_],
+                [_,X,X,X,_,_,X,X,X,_],
+                [_,X,_,_,_,_,_,_,X,_],
+                [_,X,_,_,_,_,_,_,X,_],
+                [_,X,X,X,_,_,X,X,X,_],
+                [_,_,_,X,_,_,X,_,_,_],
+                [_,_,_,X,X,X,X,_,_,_],
+                [_,_,_,_,_,_,_,_,_,_],
+            ], 'At phase 3,');
+        });
+
     });
 
 });
