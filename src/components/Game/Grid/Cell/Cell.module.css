@@ -9,6 +9,7 @@ button.cell {
     font-size: 7px;
     padding: 0;
     user-select: none;
+    cursor: pointer;
 }
 .alive {
     background-color: white;
