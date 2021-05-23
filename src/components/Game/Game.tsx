@@ -19,7 +19,7 @@ export interface GameProps {
 export function Game({
     rows,
     columns,
-    cellSize = 20,
+    cellSize = 15,
     ticksPerSecond = 0.5
 }: GameProps) {
     const [gameState, dispatch] = useGameState();

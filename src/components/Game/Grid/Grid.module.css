@@ -1,4 +1,9 @@
 .Grid {
+    --grid-background: #222;
+    --grid-gap: 1px;
+
     display: grid;
-    grid-gap: 0;
+    grid-gap: var(--grid-gap);
+    border: var(--grid-gap) solid var(--grid-background);
+    background-color: var(--grid-background);
 }
