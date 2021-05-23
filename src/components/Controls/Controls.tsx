@@ -1,5 +1,5 @@
 import React, {FormEvent} from "react";
-import styles from "./Controls.module.css";
+import classes from "./Controls.module.css";
 
 const ROWS_MIN = 10, COLUMNS_MIN = 10;
 const ROWS_MAX = 80, COLUMNS_MAX = 80;
@@ -17,22 +17,34 @@ export interface ControlsProps {
     onSetColumns: (columns: number) => void;
     onSetSpeed: (speed: number) => void;
 }
-export function Controls(props: ControlsProps) {
-    const onRows = useNumberInput(props.onSetRows);
-    const onColumns = useNumberInput(props.onSetColumns);
-    const onSpeed = useNumberInput(props.onSetSpeed);
+export function Controls({
+    playing,
+    rows,
+    columns,
+    speed,
 
-    return <div className={styles.Controls}>
-        <div>
-            <button data-testid="pause-btn" onClick={props.onPause} disabled={!props.playing}>Pause</button>
-            <button data-testid="play-btn"  onClick={props.onPlay}  disabled={ props.playing}>Play</button>
+    onPause,
+    onPlay,
+    onSetRows,
+    onSetColumns,
+    onSetSpeed,
+}: ControlsProps) {
+    const onRows = useNumberInput(onSetRows);
+    const onColumns = useNumberInput(onSetColumns);
+    const onSpeed = useNumberInput(onSetSpeed);
+    const togglePlay = React.useCallback(() => {
+        playing ? onPause() : onPlay();
+    },[playing, onPlay, onPause])
+
+    return <div className={classes.Controls}>
+        <div className={classes.center}>
 
             <label htmlFor="columns-input">Columns:</label>
             <input
                 id="columns-input"
                 data-testid="columns-input"
                 onInput={onColumns}
-                value={props.columns}
+                value={columns}
                 type="number"
                 min={ROWS_MIN}
                 max={ROWS_MAX}
@@ -43,27 +55,33 @@ export function Controls(props: ControlsProps) {
                 id="rows-input"
                 data-testid="rows-input"
                 onInput={onRows}
-                value={props.rows}
+                value={rows}
                 type="number"
                 min={COLUMNS_MIN}
                 max={COLUMNS_MAX}
             />
 
         </div>
-        <div>
+        <div className={classes.speedRow+' '+classes.center}>
             <label htmlFor="speed-input">Speed: </label>
             <input
                 id="speed-input"
                 data-testid="speed-input"
                 onInput={onSpeed}
-                value={props.speed}
+                value={speed}
                 type="range"
                 step={SPEED_STEP}
                 min={SPEED_MIN}
                 max={SPEED_MAX}
             /> {/** TODO Make slider exponential */}
-            <span>{props.speed.toFixed(1)} ticks per second.</span>
+            <span>{speed.toFixed(1)} ticks per second.</span>
 
+        </div>
+
+        <div className={classes.center}>
+            <button data-testid="play-toggle" onClick={togglePlay} className={classes.playButton}>
+                {playing ? 'Pause' : 'Play'}
+            </button>
         </div>
     </div>;
 }

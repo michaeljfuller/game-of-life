@@ -4,3 +4,24 @@
 .Controls input[type="number"] {
     width: 40px;
 }
+
+.speedRow {
+    margin-top: 2px;
+}
+.speedRow input[type="range"] {
+    position: relative;
+    top: 2px;
+}
+.speedRow span {
+    user-select: none;
+}
+
+.playButton {
+    margin-top: 5px;
+    width: 100%;
+}
+
+.center {
+    display: flex;
+    justify-content: center;
+}

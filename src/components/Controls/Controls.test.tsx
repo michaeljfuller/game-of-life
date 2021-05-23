@@ -20,16 +20,16 @@ function renderControls(partial?: Partial<ControlsProps>) {
 describe("Controls", () => {
     describe('props', () => {
 
-        it('disables play button if playing', () => {
-            const controls = renderControls({ playing: true });
-            expect(controls.getByTestId('play-btn')).toBeDisabled();
-            expect(controls.getByTestId('pause-btn')).not.toBeDisabled();
+        it('shows play button if paused', () => {
+            const controls = renderControls({ playing: false });
+            const button = controls.getByTestId('play-toggle');
+            expect(button).toHaveTextContent('Play')
         });
 
-        it('disables pause button if playing', () => {
-            const controls = renderControls({ playing: false });
-            expect(controls.getByTestId('pause-btn')).toBeDisabled();
-            expect(controls.getByTestId('play-btn')).not.toBeDisabled();
+        it('shows pause button if playing', () => {
+            const controls = renderControls({ playing: true });
+            const button = controls.getByTestId('play-toggle');
+            expect(button).toHaveTextContent('Pause')
         });
 
         it('can set columns', () => {
@@ -56,7 +56,7 @@ describe("Controls", () => {
         it('has a pause button', () => {
             const onPause = jest.fn();
             const controls = renderControls({ onPause, playing: true });
-            const button = controls.getByTestId('pause-btn');
+            const button = controls.getByTestId('play-toggle');
             fireEvent.click(button);
             expect(onPause).toHaveBeenCalledTimes(1);
         });
@@ -64,7 +64,7 @@ describe("Controls", () => {
         it('has a play button', () => {
             const onPlay = jest.fn();
             const controls = renderControls({ onPlay, playing: false });
-            const button = controls.getByTestId('play-btn');
+            const button = controls.getByTestId('play-toggle');
             fireEvent.click(button);
             expect(onPlay).toHaveBeenCalledTimes(1);
         });
