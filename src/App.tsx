@@ -7,8 +7,8 @@ import classes from "./App.module.css";
 
 function App() {
     const playing = useSetBool(false);
-    const [rows, setRows] = React.useState(25);
-    const [columns, setColumns] = React.useState(25);
+    const [rows, setRows] = React.useState(30);
+    const [columns, setColumns] = React.useState(50);
     const [speed, setSpeed] = React.useState(3);
 
     return <div className={classes.App}>
