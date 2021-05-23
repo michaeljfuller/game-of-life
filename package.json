@@ -23,6 +23,8 @@
     "start": "react-scripts start",
     "prod": "react-scripts build && serve -s build",
     "test": "react-scripts test",
+    "test:coverage": "react-scripts test --coverage --coverageDirectory coverage --watchAll",
+    "report:coverage": "coverage/lcov-report/index.html",
     "deploy": "react-scripts build && gh-pages -d build"
   },
   "eslintConfig": {
