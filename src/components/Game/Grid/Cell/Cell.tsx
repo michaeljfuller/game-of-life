@@ -9,7 +9,7 @@ export interface CellProps {
 }
 
 /**
- * A game Cell that is either dead or alive.
+ * A stateless component that represents a Cell - dead or alive.
  */
 export function Cell({
     alive, column, row, onPress

@@ -3,8 +3,9 @@ import {Game} from "./components/Game/Game";
 import {Controls} from "./components/Controls/Controls";
 import classes from "./App.module.css";
 
-// TODO Add Error Boundary
-
+/**
+ * Stateful component that sets state based on the Controls component callback and passes it to the Game.
+ */
 function App() {
     const playing = useSetBool(false);
     const [rows, setRows] = React.useState(30);

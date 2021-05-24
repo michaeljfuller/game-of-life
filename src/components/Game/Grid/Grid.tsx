@@ -13,7 +13,7 @@ export interface GridProps {
 }
 
 /**
- * Grid lays out each Cell.
+ * A stateless component that handles the layout of each Cell.
  */
 export function Grid({
     gameState,
@@ -22,7 +22,6 @@ export function Grid({
     cellSize=50,
     onCellPressed,
 }: GridProps) {
-
     const cells = forEachCell(rows, columns, (row, column, index) => {
         return <Cell
             key={`${row}x${column}`}

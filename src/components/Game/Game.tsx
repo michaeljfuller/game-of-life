@@ -14,7 +14,8 @@ export interface GameProps {
 }
 
 /**
- * The component that manages the game state.
+ * Stateful component that handles the state of the game.
+ * Sets up the Grid and decides the state of its Cells via some custom hooks.
  */
 export function Game({
     rows,

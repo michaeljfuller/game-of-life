@@ -17,6 +17,13 @@ export interface ControlsProps {
     onSetColumns: (columns: number) => void;
     onSetSpeed: (speed: number) => void;
 }
+
+/**
+ * A stateless component that contains controls that let the user;
+ * - Play/pause
+ * - Set Grid size
+ * - Set the Game's speed.
+ */
 export function Controls({
     playing,
     rows,
@@ -29,9 +36,9 @@ export function Controls({
     onSetColumns,
     onSetSpeed,
 }: ControlsProps) {
-    const onRows = useNumberInput(onSetRows);
-    const onColumns = useNumberInput(onSetColumns);
-    const onSpeed = useNumberInput(onSetSpeed);
+    const onRows = useNumberInputCallback(onSetRows);
+    const onColumns = useNumberInputCallback(onSetColumns);
+    const onSpeed = useNumberInputCallback(onSetSpeed);
     const togglePlay = React.useCallback(() => {
         playing ? onPause() : onPlay();
     },[playing, onPlay, onPause])
@@ -86,7 +93,7 @@ export function Controls({
     </div>;
 }
 
-function useNumberInput(
+function useNumberInputCallback(
     callback: (num: number) => void
 ) {
     return React.useCallback((event: FormEvent) => {
