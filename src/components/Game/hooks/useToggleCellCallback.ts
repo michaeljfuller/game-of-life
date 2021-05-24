@@ -1,10 +1,13 @@
 import React from "react";
-import {GameStateToggleAction} from "./useGameState/gameStateActions";
+import {GameStateDispatcher} from "./useGameState";
 
+/**
+ * Creates a callback that, when called with a column and row, toggles the state of a Cell.
+ */
 export default function useToggleCellCallback(
     rows: number,
     columns: number,
-    dispatcher: React.Dispatch<GameStateToggleAction>
+    dispatcher: GameStateDispatcher
 ) {
     return React.useCallback((row: number, column: number) => {
         dispatcher({

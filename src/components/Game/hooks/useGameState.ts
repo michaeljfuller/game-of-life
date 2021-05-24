@@ -1,14 +1,22 @@
 import React from "react";
 import {
     GameStateAction,
+    GameStateDispatcher,
     setAction,
     toggleAction,
     tickAction,
     clearAction,
     randomiseAction
 } from "./useGameState/gameStateActions";
+export type {
+    GameStateAction,
+    GameStateDispatcher,
+} from "./useGameState/gameStateActions";
 
-export default function useGameState() {
+/**
+ * Returns the GameState and a GameStateDispatcher to change it.
+ */
+export default function useGameState(): [GameState, GameStateDispatcher] {
     return React.useReducer(gameStateReducer, []);
 }
 

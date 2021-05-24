@@ -1,9 +1,11 @@
+import {Dispatch} from "react";
 import tickGameState from "./tickGameState";
 
 export type GameStateAction = GameStateSetAction | GameStateToggleAction | GameStateTickAction | GameStateClearAction | GameStateRandomiseAction;
 interface GameStateActionBase {
     type: string;
 }
+export type GameStateDispatcher = Dispatch<GameStateAction>;
 
 /**
  * Set the state to a specific value.

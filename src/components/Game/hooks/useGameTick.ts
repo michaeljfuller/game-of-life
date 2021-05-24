@@ -1,11 +1,14 @@
 import React from "react";
-import {GameStateTickAction} from "./useGameState/gameStateActions";
+import {GameStateDispatcher} from "./useGameState";
 
+/**
+ * Uses the passed GameStateDispatcher to tick the game based on the passed `ticksPerSecond`.
+ */
 export default function useGameTick(
     ticksPerSecond: number,
     rows: number,
     columns: number,
-    dispatcher: React.Dispatch<GameStateTickAction>
+    dispatcher: GameStateDispatcher
 ) {
     React.useEffect(() => {
         if (ticksPerSecond > 0) {
