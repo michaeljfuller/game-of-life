@@ -1,4 +1,4 @@
-import {tickGame,  countNeighbouringCells} from './tickGameState';
+import {tickGame,  countNeighbouringCells} from './tickGame';
 
 describe('tickGame', () => {
 
